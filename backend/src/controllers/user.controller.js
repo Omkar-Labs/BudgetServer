@@ -211,13 +211,7 @@ const generateOtp = asyncHandler(async (req, res) => {
             pass: process.env.EMAIL_PASS
         }
     });
-    transporter.sendMail(mailoptions, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log("Email sent: " + info.response);
-        }
-    });
+    transporter.sendMail(mailoptions);
     return res.status(200).json(new ApiResponse(200, {}, "OTP generated and sent to email"));
 });
 
