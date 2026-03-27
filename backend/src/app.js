@@ -5,15 +5,18 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 
-app.use(cors({
-    origin:process.env.origin,
-    credentials:true,
-    methods:["GET","POST","PUT","DELETE"],
-    allowedHeaders:["Content-Type","Authorization"],
-    accessControlAllowOrigin:process.env.ORIGIN,
-    accessControlAllowCredentials:true,
+app.use((req,res,next)=>{
+    res.header("Access-Control-Allow-Origin", process.env.ORIGIN);
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Credentials", "true");
 
-}));
+    if(req.method === "OPTIONS"){
+        res.status(200).send();
+    }
+    next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
