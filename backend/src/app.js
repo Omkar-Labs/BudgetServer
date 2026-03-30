@@ -27,5 +27,13 @@ import router from './routes/user.route.js';
 
 app.use("/api/v1/user" , router)
 
+// Health check endpoint to prevent server from sleeping
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
 
 export default app;
